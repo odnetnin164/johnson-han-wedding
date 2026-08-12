@@ -1,0 +1,1003 @@
+/* =================================================================
+   Janice & Justin Wedding Invitation — styles
+   Minimal overrides on top of Bootstrap 5.
+   ================================================================= */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+:root {
+  /* Dark palette is the default. Light mode is opt-in via [data-theme="light"] below. */
+  --paper: #14172a;       /* page background / details region (deep navy) */
+  --paper-deep: #1d2138;  /* subtle panel / input bg, details section */
+  --ink: #e8eaf2;         /* primary text */
+  --muted: #9aa0b8;       /* secondary text */
+  --accent: #7da8e0;      /* sky blue — primary buttons, focus rings (brighter for dark bg) */
+  --accent-dark: #9bbce6; /* hover for primary (lighter on dark) */
+  --rule: #2a2f4a;        /* hairlines under inputs */
+  --toggle-rule: #5a6080; /* brighter than --rule, used for the RSVP toggle outline */
+
+  /* Jewel-tone invite region (dark mode). */
+  --invite-bg: #0d2e22;   /* deep emerald — invite region */
+
+  /* Envelope tokens: fixed, NOT overridden in [data-theme="light"].
+     The envelope is always a paper/kraft color in both themes. */
+  --envelope-fill: #d9c8a8;
+  --envelope-stroke: #b89e76;
+  --envelope-inner: #c9b48f;
+
+  /* Override Bootstrap's primary tokens so derived UI (links, focus glows,
+     etc.) picks up the accent. The buttons need their own override below
+     because Bootstrap 5.3 hard-codes --bs-btn-bg / --bs-btn-color on
+     .btn-primary and .btn-outline-primary and doesn't images --bs-primary. */
+  --bs-primary: var(--accent);
+  --bs-primary-rgb: 125, 168, 224;
+  --bs-link-color: var(--accent);
+  --bs-link-hover-color: var(--accent-dark);
+}
+
+/* Re-bind Bootstrap's button-level variables to the current accent so
+   the "Send RSVP" (filled) and the page-level RSVP buttons (outlined)
+   actually pick up the theme color. */
+.btn-primary {
+  --bs-btn-bg: var(--accent);
+  --bs-btn-border-color: var(--accent);
+  --bs-btn-color: #fff;
+  --bs-btn-hover-bg: var(--accent-dark);
+  --bs-btn-hover-border-color: var(--accent-dark);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-active-bg: var(--accent-dark);
+  --bs-btn-active-border-color: var(--accent-dark);
+  --bs-btn-active-color: #fff;
+  --bs-btn-focus-shadow-rgb: var(--bs-primary-rgb);
+  --bs-btn-disabled-bg: var(--accent);
+  --bs-btn-disabled-border-color: var(--accent);
+  --bs-btn-disabled-color: #fff;
+}
+
+.btn-outline-primary {
+  --bs-btn-color: var(--accent);
+  --bs-btn-border-color: var(--accent);
+  --bs-btn-bg: transparent;
+  --bs-btn-hover-bg: var(--accent);
+  --bs-btn-hover-border-color: var(--accent);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-active-bg: var(--accent);
+  --bs-btn-active-border-color: var(--accent);
+  --bs-btn-active-color: #fff;
+  --bs-btn-focus-shadow-rgb: var(--bs-primary-rgb);
+  --bs-btn-disabled-color: var(--accent);
+  --bs-btn-disabled-border-color: var(--accent);
+}
+
+/* Light mode — only when the user explicitly toggles it (or has previously chosen it). */
+[data-theme="light"] {
+  --paper: #f5f0e8;
+  --paper-deep: #ebe3d3;
+  --ink: #2b2b2b;
+  --muted: #6b6b6b;
+  --accent: #8a6d4a;
+  --accent-dark: #6e5638;
+  --rule: #d9cfbf;
+  --toggle-rule: #c8bfa8; /* visible on the cream modal background */
+  /* Invite region in light mode is warm cream. */
+  --invite-bg: #efe7d6;
+  --bs-primary: var(--accent);
+  --bs-primary-rgb: 138, 109, 74;
+  --bs-link-color: var(--accent);
+  --bs-link-hover-color: var(--accent-dark);
+}
+
+html,
+body {
+  background: var(--paper);
+  color: var(--ink);
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+body {
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Centered narrow column with generous vertical padding.
+   Padding is intentionally thin: the two regions now provide their own
+   edge-to-edge padding and backgrounds. */
+.site-main {
+  margin: 0 auto;
+  padding: 0;
+}
+
+/* -----------------------------------------------------------------
+   Invite region — jewel-tone background with a subtle botanical
+   (leaves) motif, ~85vh so the boundary with the details region is
+   visible at the bottom of the viewport (signals "scroll for more").
+   ----------------------------------------------------------------- */
+.invite-region {
+  background-color: var(--invite-bg);
+  /* Botanical motif: four small outlined leaves per 80x80 tile, in two
+     opposing rotations so the pattern reads as a regular weave. The
+     stroke is a low-opacity ink color so the leaves sit on the cream
+     without competing with the invite card. */
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'><g fill='none' stroke='rgba(40,40,40,0.10)' stroke-width='0.7' stroke-linecap='round' stroke-linejoin='round'><g transform='translate(20 20) rotate(20)'><path d='M0 -7 C 3.5 -3.5 3.5 3.5 0 7 C -3.5 3.5 -3.5 -3.5 0 -7 Z'/><line x1='0' y1='7' x2='0' y2='11'/></g><g transform='translate(60 20) rotate(-70)'><path d='M0 -7 C 3.5 -3.5 3.5 3.5 0 7 C -3.5 3.5 -3.5 -3.5 0 -7 Z'/><line x1='0' y1='7' x2='0' y2='11'/></g><g transform='translate(20 60) rotate(-70)'><path d='M0 -7 C 3.5 -3.5 3.5 3.5 0 7 C -3.5 3.5 -3.5 -3.5 0 -7 Z'/><line x1='0' y1='7' x2='0' y2='11'/></g><g transform='translate(60 60) rotate(20)'><path d='M0 -7 C 3.5 -3.5 3.5 3.5 0 7 C -3.5 3.5 -3.5 -3.5 0 -7 Z'/><line x1='0' y1='7' x2='0' y2='11'/></g></g></svg>");
+  background-size: 80px 80px;
+  background-repeat: repeat;
+
+  min-height: 85vh;
+  /* Bottom padding gives the scroll-hint chevron breathing room so it
+     doesn't crash into the details region below. */
+  padding: 1.5rem 1rem 4.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* In dark mode the leaves need lighter (not darker) strokes so
+   they read against the deep emerald. */
+:root:not([data-theme="light"]) .invite-region {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'><g fill='none' stroke='rgba(255,255,255,0.14)' stroke-width='0.7' stroke-linecap='round' stroke-linejoin='round'><g transform='translate(20 20) rotate(20)'><path d='M0 -7 C 3.5 -3.5 3.5 3.5 0 7 C -3.5 3.5 -3.5 -3.5 0 -7 Z'/><line x1='0' y1='7' x2='0' y2='11'/></g><g transform='translate(60 20) rotate(-70)'><path d='M0 -7 C 3.5 -3.5 3.5 3.5 0 7 C -3.5 3.5 -3.5 -3.5 0 -7 Z'/><line x1='0' y1='7' x2='0' y2='11'/></g><g transform='translate(20 60) rotate(-70)'><path d='M0 -7 C 3.5 -3.5 3.5 3.5 0 7 C -3.5 3.5 -3.5 -3.5 0 -7 Z'/><line x1='0' y1='7' x2='0' y2='11'/></g><g transform='translate(60 60) rotate(20)'><path d='M0 -7 C 3.5 -3.5 3.5 3.5 0 7 C -3.5 3.5 -3.5 -3.5 0 -7 Z'/><line x1='0' y1='7' x2='0' y2='11'/></g></g></svg>");
+}
+
+/* Subtle scroll-down affordance at the bottom of the invite region. */
+.invite-scroll-hint {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--ink);
+  opacity: 0.55;
+  pointer-events: none;
+  animation: invite-scroll-bounce 2.2s ease-in-out infinite;
+}
+
+.invite-scroll-hint svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  display: block;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+@keyframes invite-scroll-bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%      { transform: translateX(-50%) translateY(6px); }
+}
+
+/* -----------------------------------------------------------------
+   Envelope scene — envelope is the bottom layer, the card sits on
+   top of it slightly offset (shifted up-and-to-the-left, with a very
+   small counter-clockwise tilt for a "just placed" feel).
+   ----------------------------------------------------------------- */
+.envelope-scene {
+  position: relative;
+  /* The second term guarantees the scene fits inside the section's
+     content area (85vh minus 1.5rem top + 3rem bottom padding), so
+     the section never grows past 85vh. */
+  width: min(85vw, calc((85vh - 4.5rem) * 5 / 7));
+  aspect-ratio: 5 / 7;
+  margin: 0 auto;
+}
+
+.envelope {
+  /* Offset to the lower-right so only a small corner peeks out from
+     behind the centered card. No rotation. */
+  position: absolute;
+  top: 4%;
+  left: 4%;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  /* Two-layer drop shadow: a soft, diffused one for ambient depth
+     and a tight, darker one right against the edge for grounding.
+     drop-shadow (not box-shadow) is used so the shadow follows the
+     envelope's shape, including the right-side flap. */
+  filter:
+    drop-shadow(0 16px 28px rgba(0, 0, 0, 0.35))
+    drop-shadow(0 3px 6px rgba(0, 0, 0, 0.2));
+}
+
+.envelope svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  /* The right-side flap path extends to x=540, which is outside the
+     viewBox (0 0 500 700). overflow:visible lets it render so the
+     open envelope is more visible past the card. */
+  overflow: visible;
+}
+
+.envelope-scene > .invite-card {
+  /* Fills the scene, centered, no rotation. The image's natural
+     aspect (5:7) matches the scene's aspect, so no object-fit is
+     needed. */
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  border-radius: 4px;
+  /* Two-layer box shadow: a soft, diffused one for ambient depth
+     and a tight, darker one right against the edge for grounding. */
+  box-shadow:
+    0 24px 55px -16px rgba(0, 0, 0, 0.45),
+    0 5px 12px rgba(0, 0, 0, 0.22);
+}
+
+/* In dark mode the black shadows disappear against the deep emerald.
+   Bump the alpha and tighten the contact shadow so the invite and
+   envelope still read as physical objects lifted off the background. */
+:root:not([data-theme="light"]) .envelope {
+  filter:
+    drop-shadow(0 18px 32px rgba(0, 0, 0, 0.65))
+    drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
+}
+:root:not([data-theme="light"]) .envelope-scene > .invite-card {
+  box-shadow:
+    0 28px 60px -16px rgba(0, 0, 0, 0.75),
+    0 6px 14px rgba(0, 0, 0, 0.45);
+}
+
+/* -----------------------------------------------------------------
+   Details region — distinct background, linen weave texture, hard
+   boundary with the invite region (border-top in --rule).
+   ----------------------------------------------------------------- */
+.details-region {
+  background-color: var(--paper);
+  /* Linen weave: two overlapping diagonal-stripe gradients. */
+  background-image:
+    repeating-linear-gradient(
+      45deg,
+      rgba(0, 0, 0, 0.025) 0,
+      rgba(0, 0, 0, 0.025) 1px,
+      transparent 1px,
+      transparent 6px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(0, 0, 0, 0.025) 0,
+      rgba(0, 0, 0, 0.025) 1px,
+      transparent 1px,
+      transparent 6px
+    );
+  padding: 3rem 1.5rem 4rem;
+  border-top: 1px solid var(--rule);
+}
+
+/* In dark mode the linen weave needs to be lighter (not darker) than the
+   navy base for it to read at all. */
+:root:not([data-theme="light"]) .details-region {
+  background-image:
+    repeating-linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.03) 0,
+      rgba(255, 255, 255, 0.03) 1px,
+      transparent 1px,
+      transparent 6px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(255, 255, 255, 0.03) 0,
+      rgba(255, 255, 255, 0.03) 1px,
+      transparent 1px,
+      transparent 6px
+    );
+}
+
+.details {
+  /* Inset panel inside the details region. */
+  margin: 0 auto;
+  padding: 0;
+}
+
+/* Title — the bigger element on the page. */
+.event-title {
+  font-family: "Cormorant Garamond", "Times New Roman", serif;
+  font-weight: 500;
+  font-size: 2.85rem;
+  line-height: 1.15;
+  color: var(--ink);
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+}
+
+@media (max-width: 480px) {
+  .event-title {
+    font-size: 2.25rem;
+  }
+}
+
+.description {
+  font-family: "Inter", sans-serif;
+  font-size: 1.1rem;
+  color: var(--muted);
+  margin: 2rem;
+  line-height: 1.5;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* -----------------------------------------------------------------
+   3-column footer grid: HOSTED BY | DATE | ADDRESS
+   ----------------------------------------------------------------- */
+.details-footer {
+  display: grid;
+  max-width: 800px;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2rem;
+  margin: 3rem auto;
+  text-align: center;
+  font-family: "Inter", sans-serif;
+}
+
+.details-col {
+  position: relative; /* anchor for the calendar popover */
+}
+
+.col-label {
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-size: 1.2rem;
+  color: var(--ink);
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.col-value {
+  color: var(--ink);
+  font-size: 1.1rem;
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* Both the date trigger and the address link use the same underlined style. */
+.col-link,
+.col-link-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: var(--rule);
+  cursor: pointer;
+}
+
+.col-link:hover,
+.col-link-btn:hover,
+.col-link:focus,
+.col-link-btn:focus {
+  color: var(--accent-dark);
+  text-decoration-color: var(--accent-dark);
+  outline: none;
+}
+
+/* The address <a> is inline by default; making it inline-block ensures
+   the underline hugs the widest line of its multi-line content rather
+   than extending past it. .col-link-btn is a <button> already. */
+.col-link { display: inline-block; }
+
+@media (max-width: 640px) {
+  .details-footer {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+}
+
+/* -----------------------------------------------------------------
+   Calendar popover
+   ----------------------------------------------------------------- */
+.calendar-popover {
+  position: absolute;
+  margin-top: 0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--paper-deep);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  box-shadow: 0 14px 30px -12px rgba(0, 0, 0, 0.25);
+  padding: 0.75rem 1rem;
+  min-width: 200px;
+  z-index: 10;
+  font-family: "Inter", sans-serif;
+  text-align: left;
+}
+
+.popover-label {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin: 0 0 0.5rem;
+}
+
+.popover-item {
+  display: block;
+  padding: 0.4rem 0;
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--rule);
+  font-size: 1.1rem;
+}
+
+.popover-item:hover,
+.popover-item:focus {
+  color: var(--accent-dark);
+  text-decoration-color: var(--accent-dark);
+  outline: none;
+}
+
+/* -----------------------------------------------------------------
+   RSVP buttons (live inside the details panel, per the new layout)
+   ----------------------------------------------------------------- */
+.rsvp-heading {
+  font-family: "Cormorant Garamond", serif;
+  font-weight: 500;
+  font-size: 1.75rem;
+  margin-bottom: 1.25rem;
+  color: var(--ink);
+}
+
+.rsvp-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Per the images: both RSVP buttons are outlined (using the blue
+   accent) with square corners and sans-serif, uppercase, letter-spaced text. */
+#rsvp-buttons .btn {
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  border-radius: 0;
+  padding: 0.85rem 1.75rem;
+}
+
+.rsvp-closed {
+  color: var(--muted);
+  font-style: italic;
+  margin-top: 1rem;
+}
+
+/* -----------------------------------------------------------------
+   "Set Reminder" link
+   ----------------------------------------------------------------- */
+.set-reminder-wrap {
+  margin-top: 1rem;
+  margin-bottom: 0;
+}
+
+.set-reminder-link {
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-size: 0.95rem;
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: var(--rule);
+  font-family: "Inter", sans-serif;
+}
+
+.set-reminder-link:hover,
+.set-reminder-link:focus {
+  color: var(--accent-dark);
+  text-decoration-color: var(--accent-dark);
+  outline: none;
+}
+
+/* -----------------------------------------------------------------
+   RSVP modal — paper-feel chrome
+   ----------------------------------------------------------------- */
+.rsvp-modal .modal-content {
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.3);
+}
+
+.rsvp-modal .modal-header {
+  border-bottom: 1px solid var(--rule);
+  padding: 1.5rem 1.75rem 1rem;
+  align-items: center;
+}
+
+.rsvp-modal .modal-title {
+  font-family: "Cormorant Garamond", "Times New Roman", serif;
+  font-weight: 600;
+  font-size: 1.85rem;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+  margin: 0;
+}
+
+.rsvp-modal .btn-close:focus {
+  box-shadow: 0 0 0 0.2rem rgba(var(--bs-primary-rgb), 0.25);
+}
+
+/* Bootstrap's .btn-close paints an inline-SVG "X" in black, which is
+   invisible on the dark navy modal. In dark mode, swap the SVG fill to
+   white so the close button is findable. (Light mode's default black
+   "X" on the cream modal already reads fine, so leave it alone.) */
+:root:not([data-theme="light"]) .rsvp-modal .btn-close {
+  --bs-btn-close-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'%3e%3cpath d='M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414z'/%3e%3c/svg%3e");
+  /* Bump the default resting opacity a touch so the button is easier
+     to spot at a glance on the dark modal. Hover/focus still go to
+     full opacity via Bootstrap's own .btn-close:hover/active rules. */
+  opacity: 0.7;
+}
+
+:root:not([data-theme="light"]) .rsvp-modal .btn-close:hover {
+  opacity: 0.9;
+}
+
+.rsvp-modal .modal-body {
+  padding: 1.5rem 1.75rem;
+}
+
+.rsvp-modal .modal-footer {
+  border-top: 1px solid var(--rule);
+  padding: 1rem 1.75rem 1.5rem;
+  gap: 0.5rem;
+}
+
+/* The cancel link should be subtle, not bootstrap-blue. */
+.rsvp-modal .modal-footer .btn-link {
+  color: var(--muted);
+  text-decoration: none;
+  font-family: "Cormorant Garamond", serif;
+  font-style: italic;
+  font-size: 1.05rem;
+}
+
+.rsvp-modal .modal-footer .btn-link:hover {
+  color: var(--accent-dark);
+}
+
+/* -----------------------------------------------------------------
+   Form typography — classier serif throughout
+   ----------------------------------------------------------------- */
+.rsvp-form {
+  font-family: "Cormorant Garamond", "Times New Roman", serif;
+  color: var(--ink);
+}
+
+.rsvp-form fieldset {
+  border: none;
+  padding: 0;
+  margin: 0 0 1.5rem;
+}
+
+.form-label,
+.rsvp-form legend {
+  font-family: "Cormorant Garamond", "Times New Roman", serif;
+  font-weight: 600;
+  font-size: 1.1rem;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  margin-bottom: 0.5rem;
+  float: none;
+  width: auto;
+  text-transform: none;
+}
+
+.optional-tag {
+  font-family: "Inter", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--muted);
+  letter-spacing: 0;
+  margin-left: 0.35rem;
+}
+
+/* Thin underline inputs. Lora is a contemporary serif designed for
+   screen reading with lining figures (uniform-height numerals), which
+   reads much more cleanly than Cormorant Garamond's old-style figures
+   in a data-entry context. Filled-in text is explicitly upright so
+   it never inherits italic from anywhere up the tree; placeholders
+   keep their italic via the .form-control::placeholder rule below. */
+.rsvp-form .form-control,
+.rsvp-form .form-select {
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid var(--rule);
+  border-radius: 0;
+  padding: 0.5rem 0;
+  font-family: "Lora", "Times New Roman", serif;
+  font-weight: 500;
+  font-style: normal;
+  font-size: 1.2rem;
+  line-height: 1.4;
+  color: var(--ink);
+}
+
+.rsvp-form .form-control:focus,
+.rsvp-form .form-select:focus {
+  border-color: var(--accent);
+  box-shadow: none;
+}
+
+.rsvp-form .form-control::placeholder {
+  color: var(--muted);
+  font-style: italic;
+  font-weight: 400;
+  opacity: 0.7;
+}
+
+.rsvp-form textarea.form-control {
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 0.5rem 0.75rem;
+  font-size: 1.15rem;
+  line-height: 1.5;
+}
+
+/* Radio buttons (attending) */
+.rsvp-form .form-check {
+  margin-bottom: 0.4rem;
+  padding-left: 1.75em;
+}
+
+.rsvp-form .form-check-input {
+  margin-top: 0.4rem;
+  border-color: var(--rule);
+}
+
+.rsvp-form .form-check-input:checked {
+  background-color: var(--accent);
+  border-color: var(--accent);
+}
+
+.rsvp-form .form-check-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 0.2rem rgba(var(--bs-primary-rgb), 0.25);
+}
+
+.rsvp-form .form-check-label {
+  font-family: "Cormorant Garamond", serif;
+  font-weight: 500;
+  font-size: 1.2rem;
+  color: var(--ink);
+  margin-left: 0.25rem;
+}
+
+/* Item 5 part B — Segmented Yes/No toggle in the modal. */
+.attending-toggle {
+  display: inline-flex;
+  border: 1px solid var(--toggle-rule);
+  border-radius: 999px; /* pill — matches the images image */
+  overflow: hidden;
+  background: transparent;
+}
+
+.toggle-segment {
+  padding: 0.7rem 1.85rem;
+  font-family: "Cormorant Garamond", "Times New Roman", serif;
+  font-size: 1.15rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  background: transparent;
+  color: var(--muted);
+  border: none;
+  border-right: 1px solid var(--toggle-rule);
+  user-select: none;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.toggle-segment:last-of-type {
+  border-right: none;
+}
+
+.toggle-segment:hover {
+  color: var(--ink);
+}
+
+.attending-toggle input[type="radio"]:checked + .toggle-segment {
+  background: var(--accent);
+  color: #2b2b2b; /* dark text on the blue accent reads well in both themes */
+}
+
+.attending-toggle input[type="radio"]:focus-visible + .toggle-segment {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* "Add another attendee" — italic underlined link. */
+.add-attendee-btn {
+  background: none;
+  border: none;
+  padding: 0.5rem 0;
+  margin-top: 0.25rem;
+  font-family: "Cormorant Garamond", serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: 1.05rem;
+  color: var(--muted);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: var(--rule);
+  cursor: pointer;
+}
+
+.add-attendee-btn:hover,
+.add-attendee-btn:focus {
+  color: var(--accent-dark);
+  text-decoration-color: var(--accent-dark);
+  outline: none;
+}
+
+/* Validation feedback — italic serif in the accent dark color. */
+.invalid-feedback {
+  font-family: "Cormorant Garamond", serif;
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--accent-dark);
+  margin-top: 0.4rem;
+}
+
+.form-control.is-invalid,
+.form-control.is-invalid:focus {
+  border-color: var(--accent-dark);
+  border-bottom-style: solid;
+}
+
+/* -----------------------------------------------------------------
+   Attendee rows
+   Each row holds a two-line fields column with a minus-icon remove
+   button to the right, vertically centered between the name and
+   contact lines.
+   ----------------------------------------------------------------- */
+.attendee-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center; /* center the button between the two field rows */
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.attendee-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.attendee-name-row {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-end;
+}
+
+.attendee-name-row .attendee-field-name {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* Second line: contact info, indented under the name so it reads as
+   secondary to the attendee's identity. */
+.attendee-contact-row {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-end;
+  padding-left: 1.5rem;
+}
+
+.attendee-contact-row .attendee-field-phone,
+.attendee-contact-row .attendee-field-email {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.attendee-field {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* Circular minus-icon button. The 1px hairline border + muted color
+   match the rest of the form's chrome; on hover the background tints
+   to the hairline color and the icon shifts to the accent. The parent
+   .attendee-row uses align-items: center to vertically center the
+   button between the two field rows. */
+.attendee-row .remove-attendee-btn {
+  flex: 0 0 auto;
+  width: 1.5rem;
+  height: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid var(--rule);
+  border-radius: 50%;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 0;
+  transition: background-color 0.15s ease, color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.attendee-row .remove-attendee-btn:hover,
+.attendee-row .remove-attendee-btn:focus-visible {
+  background: var(--rule);
+  color: var(--accent-dark);
+  border-color: var(--rule);
+  outline: none;
+}
+
+.attendee-row .remove-attendee-btn svg {
+  width: 0.7rem;
+  height: 0.7rem;
+  display: block;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+/* The button is always rendered so the first row's fields line up
+   with the others, but it's hidden on the first row (visibility:
+   hidden keeps the layout space, unlike display: none). The click
+   handler is a no-op there anyway because the list is guaranteed
+   to have exactly one child. */
+.attendee-row:first-child .remove-attendee-btn {
+  visibility: hidden;
+}
+
+/* On narrow screens, stack the phone and email so neither collapses
+   to an unreadable width. */
+@media (max-width: 480px) {
+  .attendee-contact-row {
+    flex-direction: column;
+    gap: 0.35rem;
+    padding-left: 1rem;
+  }
+}
+
+/* -----------------------------------------------------------------
+   Modal tweaks for small screens
+   ----------------------------------------------------------------- */
+@media (max-width: 480px) {
+  .rsvp-modal .modal-header,
+  .rsvp-modal .modal-body,
+  .rsvp-modal .modal-footer {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+  .rsvp-modal .modal-title {
+    font-size: 1.5rem;
+  }
+  .rsvp-form .form-control {
+    font-size: 1.15rem;
+  }
+  .rsvp-form .form-check-label {
+    font-size: 1.1rem;
+  }
+}
+
+/* -----------------------------------------------------------------
+   Theme toggle button (top-right corner, fixed)
+   ----------------------------------------------------------------- */
+.theme-toggle {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: var(--paper-deep);
+  color: var(--ink);
+  border: 1px solid var(--rule);
+  box-shadow: 0 6px 14px -6px rgba(0, 0, 0, 0.35);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1060; /* above Bootstrap modal backdrop (1055) */
+  padding: 0;
+  transition: background-color 0.2s ease, color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.theme-toggle:hover {
+  background: var(--rule);
+  color: var(--accent);
+}
+
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.theme-toggle svg {
+  width: 1.15rem;
+  height: 1.15rem;
+  display: block;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Default state: dark mode → show the sun (click to switch to light). */
+.theme-toggle .icon-moon { display: none; }
+.theme-toggle .icon-sun { display: block; }
+
+/* In light mode: show the moon (click to switch to dark). */
+.theme-toggle.is-light .icon-sun { display: none; }
+.theme-toggle.is-light .icon-moon { display: block; }
+
+@media (max-width: 480px) {
+  .theme-toggle {
+    top: 0.75rem;
+    right: 0.75rem;
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+  .theme-toggle svg {
+    width: 1rem;
+    height: 1rem;
+  }
+}
+
+/* -----------------------------------------------------------------
+   Thank-you state (shown inside the modal after submit, then the
+   modal fades away with this message still visible)
+   ----------------------------------------------------------------- */
+.rsvp-thank-you-body {
+  text-align: center;
+  padding: 3rem 1.75rem;
+  min-height: 8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rsvp-thank-you-message {
+  font-family: "Cormorant Garamond", "Times New Roman", serif;
+  font-weight: 500;
+  font-size: 1.6rem;
+  line-height: 1.5;
+  color: var(--ink);
+  margin: 0;
+}
+
+@media (max-width: 480px) {
+  .rsvp-thank-you-body {
+    padding: 2.25rem 1.25rem;
+  }
+  .rsvp-thank-you-message {
+    font-size: 1.35rem;
+  }
+}
+
+/* -----------------------------------------------------------------
+   Small screens
+   ----------------------------------------------------------------- */
+@media (max-width: 480px) {
+  .site-main {
+    padding-top: 1.5rem;
+    padding-bottom: 2rem;
+  }
+  .card .invite-card {
+    max-width: 100%;
+  }
+  .couples-names {
+    font-size: 2.25rem;
+  }
+}
