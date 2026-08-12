@@ -1,0 +1,19 @@
+{
+  "name": "Janice & Justin — Wedding Invitation",
+  "short_name": "J&J Wedding",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#0d2e22",
+  "background_color": "#0d2e22",
+  "display": "minimal-ui"
+}
