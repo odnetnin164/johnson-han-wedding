@@ -95,7 +95,7 @@ body {
 }
 
 body {
-  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto,
+  font-family: "Josefin Sans", system-ui, -apple-system, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
@@ -312,7 +312,7 @@ body {
 }
 
 .description {
-  font-family: "Inter", sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   font-size: 1.1rem;
   color: var(--muted);
   margin: 2rem;
@@ -331,7 +331,7 @@ body {
   gap: 2rem;
   margin: 3rem auto;
   text-align: center;
-  font-family: "Inter", sans-serif;
+  font-family: "Josefin Sans", sans-serif;
 }
 
 .details-col {
@@ -406,7 +406,7 @@ body {
   padding: 0.75rem 1rem;
   min-width: 200px;
   z-index: 10;
-  font-family: "Inter", sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   text-align: left;
 }
 
@@ -457,7 +457,7 @@ body {
 /* Per the images: both RSVP buttons are outlined (using the blue
    accent) with square corners and sans-serif, uppercase, letter-spaced text. */
 #rsvp-buttons .btn {
-  font-family: "Inter", sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   font-weight: 500;
   font-size: 0.95rem;
   text-transform: uppercase;
@@ -488,7 +488,7 @@ body {
   text-decoration: underline;
   text-underline-offset: 4px;
   text-decoration-color: var(--rule);
-  font-family: "Inter", sans-serif;
+  font-family: "Josefin Sans", sans-serif;
 }
 
 .set-reminder-link:hover,
@@ -594,7 +594,7 @@ body {
 }
 
 .optional-tag {
-  font-family: "Inter", sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   font-weight: 400;
   font-style: italic;
   font-size: 0.85rem;
