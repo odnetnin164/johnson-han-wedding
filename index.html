@@ -290,8 +290,12 @@
               <div class="modal-body">
                 <!-- Attending segmented toggle (Item 5 — replaces the radio buttons).
                      Radios remain in the DOM (visually hidden) so existing form
-                     submit / pre-check / validation logic in script.js keeps working. -->
-                <fieldset class="mb-4">
+                     submit / pre-check / validation logic in script.js keeps working.
+                     The text-center class horizontally centers both the legend text
+                     and the inline-flex toggle (which behaves as an inline-block
+                     under text-align) so the whole "Are you attending?" group sits
+                     centered in the modal. -->
+                <fieldset class="mb-4 text-center">
                   <legend class="form-label fw-semibold">
                     Are you attending?
                   </legend>
