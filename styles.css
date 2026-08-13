@@ -25,6 +25,41 @@
   --envelope-stroke: #b89e76;
   --envelope-inner: #c9b48f;
 
+  /* Typography */
+  --font-serif: "Cormorant Garamond", "Times New Roman", serif;
+  --font-sans:  "Josefin Sans", sans-serif;
+  --font-body:  "Josefin Sans", system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --font-form:  "Lora", "Times New Roman", serif;
+
+  /* Letter-spacing */
+  --tracking-caps:       0.15em; /* uppercase labels */
+  --tracking-caps-tight: 0.12em; /* smaller uppercase (popover) */
+  --tracking-serif:      0.04em; /* serif headings (modal title) */
+  --tracking-form:       0.02em; /* form labels */
+
+  /* Borders */
+  --hairline: 1px solid var(--rule);
+
+  /* Shadows (always dark; light theme doesn't need lighter shadows) */
+  --shadow-popover: 0 14px 30px -12px rgba(0, 0, 0, 0.25);
+  --shadow-modal:   0 30px 60px -20px rgba(0, 0, 0, 0.3);
+  --shadow-toggle:  0 6px 14px -6px rgba(0, 0, 0, 0.35);
+  --shadow-card:
+    0 24px 55px -16px rgba(0, 0, 0, 0.45),
+    0 5px 12px rgba(0, 0, 0, 0.22);
+  --shadow-card-dark:
+    0 28px 60px -16px rgba(0, 0, 0, 0.75),
+    0 6px 14px rgba(0, 0, 0, 0.45);
+
+  /* Focus ring (matches Bootstrap's default primary focus glow) */
+  --focus-ring: 0 0 0 0.2rem rgba(var(--bs-primary-rgb), 0.25);
+
+  /* Transitions */
+  --ease-fast: 0.15s ease;
+  --ease:      0.2s ease;
+  --ease-slow: 0.25s ease;
+
   /* Override Bootstrap's primary tokens so derived UI (links, focus glows,
      etc.) picks up the accent. The buttons need their own override below
      because Bootstrap 5.3 hard-codes --bs-btn-bg / --bs-btn-color on
@@ -91,12 +126,11 @@ html,
 body {
   background: var(--paper);
   color: var(--ink);
-  transition: background-color 0.25s ease, color 0.25s ease;
+  transition: background-color var(--ease-slow), color var(--ease-slow);
 }
 
 body {
-  font-family: "Josefin Sans", system-ui, -apple-system, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
 }
 
@@ -223,9 +257,7 @@ body {
   border-radius: 4px;
   /* Two-layer box shadow: a soft, diffused one for ambient depth
      and a tight, darker one right against the edge for grounding. */
-  box-shadow:
-    0 24px 55px -16px rgba(0, 0, 0, 0.45),
-    0 5px 12px rgba(0, 0, 0, 0.22);
+  box-shadow: var(--shadow-card);
 }
 
 /* In dark mode the black shadows disappear against the deep emerald.
@@ -237,9 +269,7 @@ body {
     drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
 }
 :root:not([data-theme="light"]) .envelope-scene > .invite-card {
-  box-shadow:
-    0 28px 60px -16px rgba(0, 0, 0, 0.75),
-    0 6px 14px rgba(0, 0, 0, 0.45);
+  box-shadow: var(--shadow-card-dark);
 }
 
 /* -----------------------------------------------------------------
@@ -296,7 +326,7 @@ body {
 
 /* Title — the bigger element on the page. */
 .event-title {
-  font-family: "Cormorant Garamond", "Times New Roman", serif;
+  font-family: var(--font-serif);
   font-weight: 500;
   font-size: 2.85rem;
   line-height: 1.15;
@@ -312,7 +342,7 @@ body {
 }
 
 .description {
-  font-family: "Josefin Sans", sans-serif;
+  font-family: var(--font-sans);
   font-size: 1.1rem;
   color: var(--muted);
   margin: 2rem;
@@ -331,7 +361,7 @@ body {
   gap: 2rem;
   margin: 3rem auto;
   text-align: center;
-  font-family: "Josefin Sans", sans-serif;
+  font-family: var(--font-sans);
 }
 
 .details-col {
@@ -340,7 +370,7 @@ body {
 
 .col-label {
   text-transform: uppercase;
-  letter-spacing: 0.15em;
+  letter-spacing: var(--tracking-caps);
   font-size: 1.2rem;
   color: var(--ink);
   margin-bottom: 1rem;
@@ -400,19 +430,19 @@ body {
   left: 50%;
   transform: translateX(-50%);
   background: var(--paper-deep);
-  border: 1px solid var(--rule);
+  border: var(--hairline);
   border-radius: 6px;
-  box-shadow: 0 14px 30px -12px rgba(0, 0, 0, 0.25);
+  box-shadow: var(--shadow-popover);
   padding: 0.75rem 1rem;
   min-width: 200px;
   z-index: 10;
-  font-family: "Josefin Sans", sans-serif;
+  font-family: var(--font-sans);
   text-align: left;
 }
 
 .popover-label {
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: var(--tracking-caps-tight);
   font-size: 0.9rem;
   color: var(--muted);
   margin: 0 0 0.5rem;
@@ -439,7 +469,7 @@ body {
    RSVP buttons (live inside the details panel, per the new layout)
    ----------------------------------------------------------------- */
 .rsvp-heading {
-  font-family: "Cormorant Garamond", serif;
+  font-family: var(--font-serif);
   font-weight: 500;
   font-size: 1.75rem;
   margin-bottom: 1.25rem;
@@ -457,11 +487,11 @@ body {
 /* Per the images: both RSVP buttons are outlined (using the blue
    accent) with square corners and sans-serif, uppercase, letter-spaced text. */
 #rsvp-buttons .btn {
-  font-family: "Josefin Sans", sans-serif;
+  font-family: var(--font-sans);
   font-weight: 500;
   font-size: 0.95rem;
   text-transform: uppercase;
-  letter-spacing: 0.15em;
+  letter-spacing: var(--tracking-caps);
   border-radius: 0;
   padding: 0.85rem 1.75rem;
 }
@@ -482,13 +512,13 @@ body {
 
 .set-reminder-link {
   text-transform: uppercase;
-  letter-spacing: 0.15em;
+  letter-spacing: var(--tracking-caps);
   font-size: 0.95rem;
   color: var(--ink);
   text-decoration: underline;
   text-underline-offset: 4px;
   text-decoration-color: var(--rule);
-  font-family: "Josefin Sans", sans-serif;
+  font-family: var(--font-sans);
 }
 
 .set-reminder-link:hover,
@@ -503,9 +533,9 @@ body {
    ----------------------------------------------------------------- */
 .rsvp-modal .modal-content {
   background: var(--paper);
-  border: 1px solid var(--rule);
+  border: var(--hairline);
   border-radius: 6px;
-  box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--shadow-modal);
 }
 
 .rsvp-modal .modal-header {
@@ -515,16 +545,16 @@ body {
 }
 
 .rsvp-modal .modal-title {
-  font-family: "Cormorant Garamond", "Times New Roman", serif;
+  font-family: var(--font-serif);
   font-weight: 600;
   font-size: 1.85rem;
-  letter-spacing: 0.04em;
+  letter-spacing: var(--tracking-serif);
   color: var(--ink);
   margin: 0;
 }
 
 .rsvp-modal .btn-close:focus {
-  box-shadow: 0 0 0 0.2rem rgba(var(--bs-primary-rgb), 0.25);
+  box-shadow: var(--focus-ring);
 }
 
 /* Bootstrap's .btn-close paints an inline-SVG "X" in black, which is
@@ -557,7 +587,7 @@ body {
 .rsvp-modal .modal-footer .btn-link {
   color: var(--muted);
   text-decoration: none;
-  font-family: "Cormorant Garamond", serif;
+  font-family: var(--font-serif);
   font-style: italic;
   font-size: 1.05rem;
 }
@@ -570,7 +600,7 @@ body {
    Form typography — classier serif throughout
    ----------------------------------------------------------------- */
 .rsvp-form {
-  font-family: "Cormorant Garamond", "Times New Roman", serif;
+  font-family: var(--font-serif);
   color: var(--ink);
 }
 
@@ -582,10 +612,10 @@ body {
 
 .form-label,
 .rsvp-form legend {
-  font-family: "Cormorant Garamond", "Times New Roman", serif;
+  font-family: var(--font-serif);
   font-weight: 600;
   font-size: 1.1rem;
-  letter-spacing: 0.02em;
+  letter-spacing: var(--tracking-form);
   color: var(--ink);
   margin-bottom: 0.5rem;
   float: none;
@@ -594,7 +624,7 @@ body {
 }
 
 .optional-tag {
-  font-family: "Josefin Sans", sans-serif;
+  font-family: var(--font-sans);
   font-weight: 400;
   font-style: italic;
   font-size: 0.85rem;
@@ -616,7 +646,7 @@ body {
   border-bottom: 1px solid var(--rule);
   border-radius: 0;
   padding: 0.5rem 0;
-  font-family: "Lora", "Times New Roman", serif;
+  font-family: var(--font-form);
   font-weight: 500;
   font-style: normal;
   font-size: 1.2rem;
@@ -638,7 +668,7 @@ body {
 }
 
 .rsvp-form textarea.form-control {
-  border: 1px solid var(--rule);
+  border: var(--hairline);
   border-radius: 4px;
   padding: 0.5rem 0.75rem;
   font-size: 1.15rem;
@@ -663,11 +693,11 @@ body {
 
 .rsvp-form .form-check-input:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 0.2rem rgba(var(--bs-primary-rgb), 0.25);
+  box-shadow: var(--focus-ring);
 }
 
 .rsvp-form .form-check-label {
-  font-family: "Cormorant Garamond", serif;
+  font-family: var(--font-serif);
   font-weight: 500;
   font-size: 1.2rem;
   color: var(--ink);
@@ -685,7 +715,7 @@ body {
 
 .toggle-segment {
   padding: 0.2rem 2.0rem;
-  font-family: "Cormorant Garamond", "Times New Roman", serif;
+  font-family: var(--font-serif);
   font-size: 1.15rem;
   font-weight: 500;
   letter-spacing: 0.03em;
@@ -695,7 +725,7 @@ body {
   border: none;
   border-right: 1px solid var(--toggle-rule);
   user-select: none;
-  transition: background-color 0.15s ease, color 0.15s ease;
+  transition: background-color var(--ease-fast), color var(--ease-fast);
 }
 
 .toggle-segment:last-of-type {
@@ -722,7 +752,7 @@ body {
   border: none;
   padding: 0.5rem 0;
   margin-top: 0.25rem;
-  font-family: "Cormorant Garamond", serif;
+  font-family: var(--font-serif);
   font-style: italic;
   font-weight: 500;
   font-size: 1.05rem;
@@ -742,7 +772,7 @@ body {
 
 /* Validation feedback — italic serif in the accent dark color. */
 .invalid-feedback {
-  font-family: "Cormorant Garamond", serif;
+  font-family: var(--font-serif);
   font-style: italic;
   font-size: 0.95rem;
   color: var(--accent-dark);
@@ -833,14 +863,14 @@ body {
   align-items: center;
   justify-content: center;
   background: transparent;
-  border: 1px solid var(--rule);
+  border: var(--hairline);
   border-radius: 50%;
   color: var(--muted);
   cursor: pointer;
   padding: 0;
   margin-right: -1.0rem;
-  transition: background-color 0.15s ease, color 0.15s ease,
-    border-color 0.15s ease;
+  transition: background-color var(--ease-fast), color var(--ease-fast),
+    border-color var(--ease-fast);
 }
 
 .attendee-row .remove-attendee-btn:hover,
@@ -930,16 +960,16 @@ body {
   border-radius: 50%;
   background: var(--paper-deep);
   color: var(--ink);
-  border: 1px solid var(--rule);
-  box-shadow: 0 6px 14px -6px rgba(0, 0, 0, 0.35);
+  border: var(--hairline);
+  box-shadow: var(--shadow-toggle);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   z-index: 1060; /* above Bootstrap modal backdrop (1055) */
   padding: 0;
-  transition: background-color 0.2s ease, color 0.2s ease,
-    box-shadow 0.2s ease;
+  transition: background-color var(--ease), color var(--ease),
+    box-shadow var(--ease);
 }
 
 .theme-toggle:hover {
@@ -998,7 +1028,7 @@ body {
 }
 
 .rsvp-thank-you-message {
-  font-family: "Cormorant Garamond", "Times New Roman", serif;
+  font-family: var(--font-serif);
   font-weight: 500;
   font-size: 1.6rem;
   line-height: 1.5;
