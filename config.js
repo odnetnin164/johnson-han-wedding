@@ -32,8 +32,9 @@ export const CONFIG = {
   eventTitle: "Janice & Justin's Joyful Gathering",
 
   // Long-form description shown in the details panel.
+  // Three sentences on separate lines (rendered via white-space: pre-line).
   eventDescription:
-    "Join us for an evening of food, drinks, and conversation. This event is for adults (unless given special exception).",
+    "Join us for an evening of food, drinks, and conversation.\nAdults only (unless given special exception).",
 
   // Date and time shown in the DATE column of the 3-column footer.
   eventDateDisplay: "Friday, September 25",

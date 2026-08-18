@@ -7,17 +7,17 @@
 
 :root {
   /* Dark palette is the default. Light mode is opt-in via [data-theme="light"] below. */
-  --paper: #14172a;       /* page background / details region (deep navy) */
-  --paper-deep: #1d2138;  /* subtle panel / input bg, details section */
+  --paper: #132c20;       /* page background / details region (deep navy) */
+  --paper-deep: #132c20;  /* subtle panel / input bg, details section */
   --ink: #e8eaf2;         /* primary text */
   --muted: #9aa0b8;       /* secondary text */
-  --accent: #7da8e0;      /* sky blue — primary buttons, focus rings (brighter for dark bg) */
-  --accent-dark: #9bbce6; /* hover for primary (lighter on dark) */
-  --rule: #2a2f4a;        /* hairlines under inputs */
-  --toggle-rule: #5a6080; /* brighter than --rule, used for the RSVP toggle outline */
+  --accent: #d5b56e;      /* sky blue — primary buttons, focus rings (brighter for dark bg) */
+  --accent-dark: #d5b56e; /* hover for primary (lighter on dark) */
+  --rule: #285640;        /* hairlines under inputs */
+  --toggle-rule: #285640; /* brighter than --rule, used for the RSVP toggle outline */
 
   /* Mauve velvet invite region (dark mode). */
-  --invite-bg: #af6f9a;   /* mid plum-mauve — invite region (vibrant enough to read on the deep-navy page) */
+  --invite-bg: #90495c;   /* mid plum-mauve — invite region (vibrant enough to read on the deep-navy page) */
 
   /* Envelope tokens: fixed, NOT overridden in [data-theme="light"].
      The envelope is always a paper/kraft color in both themes. */
@@ -372,7 +372,11 @@ body {
   font-size: 1.1rem;
   color: var(--muted);
   margin: 2rem;
-  line-height: 1.5;
+  /* Honor \n in eventDescription so each sentence renders on its own line
+     (paired with white-space: pre-line). Generous line-height keeps the
+     stanza from feeling cramped. */
+  white-space: pre-line;
+  line-height: 1.7;
   margin-left: auto;
   margin-right: auto;
 }
