@@ -16,8 +16,8 @@
   --rule: #2a2f4a;        /* hairlines under inputs */
   --toggle-rule: #5a6080; /* brighter than --rule, used for the RSVP toggle outline */
 
-  /* Jewel-tone invite region (dark mode). */
-  --invite-bg: #0d2e22;   /* deep emerald — invite region */
+  /* Mauve velvet invite region (dark mode). */
+  --invite-bg: #4a2c40;   /* deep plum-mauve — invite region */
 
   /* Envelope tokens: fixed, NOT overridden in [data-theme="light"].
      The envelope is always a paper/kraft color in both themes. */
@@ -114,8 +114,8 @@
   --accent-dark: #6e5638;
   --rule: #d9cfbf;
   --toggle-rule: #c8bfa8; /* visible on the cream modal background */
-  /* Invite region in light mode is warm cream. */
-  --invite-bg: #efe7d6;
+  /* Invite region in light mode is a soft dusty mauve. */
+  --invite-bg: #b58aab;
   --bs-primary: var(--accent);
   --bs-primary-rgb: 138, 109, 74;
   --bs-link-color: var(--accent);
@@ -143,19 +143,35 @@ body {
 }
 
 /* -----------------------------------------------------------------
-   Invite region — jewel-tone background with a subtle botanical
-   (leaves) motif, ~85vh so the boundary with the details region is
-   visible at the bottom of the viewport (signals "scroll for more").
+   Invite region — mauve velvet background composed of three layers
+   (top → bottom):
+     1. A soft radial sheen centered upper-third, the classic "velvet
+        puddle" highlight.
+     2. A subtle vertical directional fiber (linear gradient) hinting
+        at the pile direction without screaming "fabric".
+     3. A fine fractal-noise SVG tile for the grainy fiber texture.
+   ~85vh tall so the boundary with the details region is visible at the
+   bottom of the viewport (signals "scroll for more").
    ----------------------------------------------------------------- */
 .invite-region {
   background-color: var(--invite-bg);
-  /* Botanical motif: four small outlined leaves per 80x80 tile, in two
-     opposing rotations so the pattern reads as a regular weave. The
-     stroke is a low-opacity ink color so the leaves sit on the cream
-     without competing with the invite card. */
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'><g fill='none' stroke='rgba(40,40,40,0.10)' stroke-width='0.7' stroke-linecap='round' stroke-linejoin='round'><g transform='translate(20 20) rotate(20)'><path d='M0 -7 C 3.5 -3.5 3.5 3.5 0 7 C -3.5 3.5 -3.5 -3.5 0 -7 Z'/><line x1='0' y1='7' x2='0' y2='11'/></g><g transform='translate(60 20) rotate(-70)'><path d='M0 -7 C 3.5 -3.5 3.5 3.5 0 7 C -3.5 3.5 -3.5 -3.5 0 -7 Z'/><line x1='0' y1='7' x2='0' y2='11'/></g><g transform='translate(20 60) rotate(-70)'><path d='M0 -7 C 3.5 -3.5 3.5 3.5 0 7 C -3.5 3.5 -3.5 -3.5 0 -7 Z'/><line x1='0' y1='7' x2='0' y2='11'/></g><g transform='translate(60 60) rotate(20)'><path d='M0 -7 C 3.5 -3.5 3.5 3.5 0 7 C -3.5 3.5 -3.5 -3.5 0 -7 Z'/><line x1='0' y1='7' x2='0' y2='11'/></g></g></svg>");
-  background-size: 80px 80px;
-  background-repeat: repeat;
+  background-image:
+    /* (1) Velvet sheen — brighter at the upper-center, fading out. */
+    radial-gradient(ellipse 80% 65% at 50% 30%,
+      rgba(255, 255, 255, 0.18) 0%,
+      rgba(255, 255, 255, 0.04) 45%,
+      rgba(0, 0, 0, 0.10) 100%),
+    /* (2) Subtle vertical fiber (pile direction). */
+    linear-gradient(180deg,
+      rgba(255, 255, 255, 0.04) 0%,
+      rgba(0, 0, 0, 0.08) 50%,
+      rgba(255, 255, 255, 0.04) 100%),
+    /* (3) Fine fractal-noise grain — the actual velvet fiber texture.
+       Stitched tiles so the noise repeats seamlessly. */
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><defs><filter id='v' x='0%25' y='0%25' width='100%25' height='100%25'><feTurbulence type='fractalNoise' baseFrequency='0.9 0.7' numOctaves='2' seed='4' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0.35 0.35 0.35 0 0'/></filter></defs><rect width='100%25' height='100%25' filter='url(%23v)'/></svg>");
+  background-size: 100% 100%, 100% 100%, 220px 220px;
+  background-repeat: no-repeat, no-repeat, repeat;
+  background-position: center, center, 0 0;
 
   min-height: 85vh;
   /* Bottom padding gives the scroll-hint chevron breathing room so it
@@ -168,10 +184,20 @@ body {
   position: relative;
 }
 
-/* In dark mode the leaves need lighter (not darker) strokes so
-   they read against the deep emerald. */
-:root:not([data-theme="light"]) .invite-region {
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'><g fill='none' stroke='rgba(255,255,255,0.14)' stroke-width='0.7' stroke-linecap='round' stroke-linejoin='round'><g transform='translate(20 20) rotate(20)'><path d='M0 -7 C 3.5 -3.5 3.5 3.5 0 7 C -3.5 3.5 -3.5 -3.5 0 -7 Z'/><line x1='0' y1='7' x2='0' y2='11'/></g><g transform='translate(60 20) rotate(-70)'><path d='M0 -7 C 3.5 -3.5 3.5 3.5 0 7 C -3.5 3.5 -3.5 -3.5 0 -7 Z'/><line x1='0' y1='7' x2='0' y2='11'/></g><g transform='translate(20 60) rotate(-70)'><path d='M0 -7 C 3.5 -3.5 3.5 3.5 0 7 C -3.5 3.5 -3.5 -3.5 0 -7 Z'/><line x1='0' y1='7' x2='0' y2='11'/></g><g transform='translate(60 60) rotate(20)'><path d='M0 -7 C 3.5 -3.5 3.5 3.5 0 7 C -3.5 3.5 -3.5 -3.5 0 -7 Z'/><line x1='0' y1='7' x2='0' y2='11'/></g></g></svg>");
+/* Light mode needs a slightly stronger sheen to read on the lighter
+   mauve — the puddle of light is the signature of velvet, so keep it
+   visible in both themes. */
+[data-theme="light"] .invite-region {
+  background-image:
+    radial-gradient(ellipse 80% 65% at 50% 30%,
+      rgba(255, 255, 255, 0.32) 0%,
+      rgba(255, 255, 255, 0.08) 45%,
+      rgba(0, 0, 0, 0.06) 100%),
+    linear-gradient(180deg,
+      rgba(255, 255, 255, 0.06) 0%,
+      rgba(0, 0, 0, 0.05) 50%,
+      rgba(255, 255, 255, 0.06) 100%),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><defs><filter id='v' x='0%25' y='0%25' width='100%25' height='100%25'><feTurbulence type='fractalNoise' baseFrequency='0.9 0.7' numOctaves='2' seed='4' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0.30 0.30 0.30 0 0'/></filter></defs><rect width='100%25' height='100%25' filter='url(%23v)'/></svg>");
 }
 
 /* Subtle scroll-down affordance at the bottom of the invite region. */
