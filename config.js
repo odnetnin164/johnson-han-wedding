@@ -68,5 +68,5 @@ export const CONFIG = {
   // assets/invite-card.jpeg and update this path.
   inviteCardSrc:
     "images/invite.png",
-  inviteCardAlt: "Janice and Justin wedding invitation",
+  inviteCardAlt: "Janice and Justin party invitation",
 };
