@@ -17,7 +17,7 @@
   --toggle-rule: #5a6080; /* brighter than --rule, used for the RSVP toggle outline */
 
   /* Mauve velvet invite region (dark mode). */
-  --invite-bg: #4a2c40;   /* deep plum-mauve — invite region */
+  --invite-bg: #af6f9a;   /* mid plum-mauve — invite region (vibrant enough to read on the deep-navy page) */
 
   /* Envelope tokens: fixed, NOT overridden in [data-theme="light"].
      The envelope is always a paper/kraft color in both themes. */
