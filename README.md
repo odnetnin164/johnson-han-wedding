@@ -70,7 +70,7 @@ If you ever want to point this site at a different Google Form:
 
 ## Replace the invite card image
 
-The default invite card image is at `images/invite.jpeg.jpeg` (the Paperless Post design the couple chose). To use a different image:
+The default invite card image is at `images/invite.png.jpeg` (the Paperless Post design the couple chose). To use a different image:
 
 1. Add your image to the repo (recommended path: `assets/invite-card.jpeg`).
 2. Update `inviteCardSrc` and `inviteCardAlt` in `config.js`.
@@ -104,7 +104,7 @@ This repo is already set up to be served from the repo root on GitHub Pages.
 | `styles.css` | Minimal overrides on top of Bootstrap |
 | `script.js` | Form behaviour, validation, submit |
 | `config.js` | All editable content + Google Form endpoint/field IDs |
-| `images/invite.jpeg.jpeg` | The invite card image |
+| `images/invite.png.jpeg` | The invite card image |
 | `README.md` | This file |
 
 ---

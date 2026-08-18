@@ -352,12 +352,18 @@ body {
 }
 
 /* -----------------------------------------------------------------
-   3-column footer grid: HOSTED BY | DATE | ADDRESS
+   Details footer: HOSTED BY | DATE | ADDRESS | DRESS
+   Flexbox so all four items sit on a single row when there's room
+   and wrap to additional rows as the viewport narrows. Each column
+   has a fixed 240px flex-basis so they're all the same width on
+   every row (no mismatched sizes when wrapped). justify-content
+   centers each row, including wrapped ones.
    ----------------------------------------------------------------- */
 .details-footer {
-  display: grid;
-  max-width: 800px;
-  grid-template-columns: 1fr 1fr 1fr;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 1100px;
   gap: 2rem;
   margin: 3rem auto;
   text-align: center;
@@ -366,6 +372,8 @@ body {
 
 .details-col {
   position: relative; /* anchor for the calendar popover */
+  flex: 0 1 240px;
+  min-width: 0;
 }
 
 .col-label {
@@ -416,7 +424,15 @@ body {
 
 @media (max-width: 640px) {
   .details-footer {
-    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .details-col {
+    flex: 1 1 100%;
+  }
+  .details-footer {
     gap: 2.5rem;
   }
 }

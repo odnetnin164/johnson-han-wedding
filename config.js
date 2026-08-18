@@ -29,7 +29,7 @@ export const CONFIG = {
   },
 
   // Title for the details panel (replaces the old `event.title`).
-  eventTitle: "Janice & Justin's Wedding Celebration",
+  eventTitle: "Janice & Justin's Joyful Gathering",
 
   // Long-form description shown in the details panel.
   eventDescription:
@@ -55,7 +55,7 @@ export const CONFIG = {
     uid: "wedding-janice-justin-2026-09-25@johnson-han-wedding",
     dtstart: "20260925T220000Z",
     dtend: "20260926T020000Z",
-    summary: "Janice & Justin's Wedding Celebration",
+    summary: "Janice & Justin's Joyful Gathering",
     description:
       "Join us for an evening of food, drinks, and conversation. Woman's Club of Bethesda, 5500 Sonoma Rd, Bethesda, MD 20817.",
     location:
@@ -66,6 +66,6 @@ export const CONFIG = {
   // screenshot the user provided. To use a custom image, copy it to
   // assets/invite-card.jpeg and update this path.
   inviteCardSrc:
-    "images/invite.jpeg",
+    "images/invite.png",
   inviteCardAlt: "Janice and Justin wedding invitation",
 };
