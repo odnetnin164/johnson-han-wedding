@@ -586,7 +586,7 @@ body {
 
 .rsvp-modal .modal-header {
   border-bottom: 1px solid var(--rule);
-  padding: 1.5rem 1.75rem 1rem;
+  padding: 1rem 1.5rem 0.6rem;
   align-items: center;
 }
 
@@ -620,13 +620,63 @@ body {
 }
 
 .rsvp-modal .modal-body {
-  padding: 1.5rem 1.75rem;
+  padding: 1.25rem 1.5rem;
+  /* When the form grows long (e.g. many attendees, small phone, large
+     system font), the modal itself must still fit the viewport and
+     only the body should scroll — otherwise the submit button in the
+     footer can end up below the bottom of the viewport with no way
+     to reach it. Bootstrap's .modal-dialog-scrollable (already on
+     the markup) sets max-height:100% + overflow:hidden on
+     .modal-content; we redeclare them here so the behavior is
+     robust to any future selector or override that might neutralize
+     the Bootstrap defaults. The footer stays pinned to the bottom
+     of the visible modal while the form fields scroll within the
+     body. */
+  overflow-y: auto;
+  /* min-height:0 is REQUIRED for overflow-y to work on a flex child:
+     by default a flex item won't shrink below its content's
+     intrinsic size, so the body would push the footer (and submit
+     button) below the viewport instead of scrolling. */
+  min-height: 0;
+  /* Smooth the scroll inside the form on touch devices. */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Belt-and-suspenders for the scrollable container: keep the
+   .modal-content clipped to the viewport so the body's overflow
+   becomes the only scroll surface. The combined selector handles
+   either class placement (Bootstrap puts it on .modal-dialog). */
+.rsvp-modal .modal-dialog-scrollable .modal-content {
+  max-height: 100%;
+  overflow: hidden;
+}
+
+/* On very short viewports (e.g. <500px tall phones in landscape,
+   or split-screen on small devices) Bootstrap's
+   `height: calc(100% - var(--bs-modal-margin) * 2)` can still let
+   the dialog exceed the viewport if the modal's parent doesn't
+   propagate a definite height. Cap the dialog directly to the
+   viewport so the modal never spills off-screen, regardless of
+   how short the viewport is. */
+@media (max-height: 500px) {
+  .rsvp-modal .modal-dialog.modal-dialog-scrollable {
+    height: auto;
+    max-height: calc(100vh - 1rem);
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .rsvp-modal .modal-dialog-scrollable .modal-content {
+    max-height: calc(100vh - 1rem);
+  }
 }
 
 .rsvp-modal .modal-footer {
   border-top: 1px solid var(--rule);
-  padding: 1rem 1.75rem 1.5rem;
+  padding: 0.6rem 1.5rem 1rem;
   gap: 0.5rem;
+  /* Keep the footer (and therefore the submit button) glued to the
+     bottom of the modal even when the form body is scrollable. */
+  flex-shrink: 0;
 }
 
 /* The cancel link should be subtle, not bootstrap-blue. */
@@ -648,12 +698,24 @@ body {
 .rsvp-form {
   font-family: var(--font-serif);
   color: var(--ink);
+  /* The form wraps .modal-body + .modal-footer inside .modal-content
+     (a flex column). Without these rules, the form is a block child
+     of that flex column, so .modal-body never gets the `flex: 1 1
+     auto` it needs to shrink and become scrollable — and on viewports
+     below ~500px tall the footer (with the submit button) ends up
+     below the bottom of the viewport with no way to reach it.
+     Making the form a flex column lets .modal-body fill the remaining
+     space and the .modal-footer stay pinned to the bottom. */
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
 }
 
 .rsvp-form fieldset {
   border: none;
   padding: 0;
-  margin: 0 0 1.5rem;
+  margin: 0 0 1rem;
 }
 
 .form-label,
@@ -691,12 +753,12 @@ body {
   border: none;
   border-bottom: 1px solid var(--rule);
   border-radius: 0;
-  padding: 0.5rem 0;
+  padding: 0.4rem 0;
   font-family: var(--font-form);
   font-weight: 500;
   font-style: normal;
-  font-size: 1.2rem;
-  line-height: 1.4;
+  font-size: 1.05rem;
+  line-height: 1.35;
   color: var(--ink);
 }
 
@@ -975,22 +1037,22 @@ body {
   .rsvp-modal .modal-header,
   .rsvp-modal .modal-body,
   .rsvp-modal .modal-footer {
-    padding-left: 1.25rem;
-    padding-right: 1.25rem;
+    padding-left: 1.15rem;
+    padding-right: 1.15rem;
   }
   .rsvp-modal .modal-title {
     font-size: 1.5rem;
   }
   .rsvp-form .form-control {
-    font-size: 1.15rem;
+    font-size: 1.05rem;
   }
   .rsvp-form .form-check-label {
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
   /* Match the narrower right padding on phone so the minus button
      still ends up flush with the modal's right edge. */
   .attendee-row .remove-attendee-btn {
-    margin-right: -1.00rem;
+    margin-right: -0.90rem;
   }
 }
 
@@ -1012,7 +1074,7 @@ body {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  z-index: 1060; /* above Bootstrap modal backdrop (1055) */
+  z-index: 1060; /* above Bootstrap modal backdrop (1050) */
   padding: 0;
   transition: background-color var(--ease), color var(--ease),
     box-shadow var(--ease);
@@ -1026,6 +1088,16 @@ body {
 .theme-toggle:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
+}
+
+/* Hide the toggle while a Bootstrap modal is open so it doesn't
+   float on top of the dialog (its z-index sits above the modal so
+   users would otherwise see — and could accidentally click — the
+   toggle over the modal content). Bootstrap adds `modal-open` to
+   <body> for the entire lifetime of an open modal, so this catches
+   the open/close transitions automatically. */
+body.modal-open .theme-toggle {
+  display: none;
 }
 
 .theme-toggle svg {
